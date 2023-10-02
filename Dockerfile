@@ -1,11 +1,14 @@
-# Use an official Python runtime as a parent image
+# Используйте официальный образ Python
 FROM python:3.11
 
-# Set the working directory in the container
+# Установите рабочую директорию в /app
 WORKDIR /app
 
-# Install Django
-RUN pip install django
-
-# Copy the current directory contents into the container at /app
+# Скопируйте текущий каталог в /app
 COPY . /app
+
+# Установите все необходимые пакеты
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Запустите команду при создании контейнера
+CMD ["gunicorn", "myproject.wsgi:application", "--bind", "0.0.0.0:8000"]
