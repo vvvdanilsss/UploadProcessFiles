@@ -1,7 +1,8 @@
-from django.db import models
+from rest_framework import serializers
+from .models import File
 
 
-class File(models.Model):
-    file = models.FileField(upload_to='uploads/')
-    uploaded_at = models.DateTimeField(auto_now_add=True)
-    processed = models.BooleanField(default=False)
+class FileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = File
+        fields = ('file', 'uploaded_at', 'processed')
