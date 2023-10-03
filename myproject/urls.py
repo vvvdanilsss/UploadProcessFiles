@@ -19,5 +19,6 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('myapp.urls')),  # Замените 'myapp' на имя вашего приложения, если оно отличается
+    path('api/', include('myapp.urls')),
+    path('api/upload/', include('myapp.urls')),
 ]
