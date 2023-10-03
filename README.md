@@ -12,16 +12,22 @@
 1. Склонируйте этот репозиторий на свой локальный компьютер:
    ```bash
    git clone https://github.com/vvvdanilsss/UploadProcessFiles.git
-   cd my-django-app
+   
    ```
 
-2. Постройте Docker-контейнеры и запустите приложение и сервисы:
+2. Постройте Docker-контейнеры:
    ```bash
    docker-compose build
-   docker-compose up
+
    ```
 
-3. Django API теперь доступен по адресу [http://localhost:8000/api/](http://localhost:8000/api/).
+3. Запустите приложение и сервисы:
+   ```bash
+   docker-compose up
+   
+   ```
+
+4. Django API теперь доступен по адресу [http://localhost:8000/api/](http://localhost:8000/api/).
 
 ## Использование
 - Чтобы загрузить файл, выполните POST-запрос к точке `/api/upload/`, передав файл как поле формы. Файл
