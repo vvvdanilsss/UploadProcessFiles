@@ -31,8 +31,14 @@ jobs:
     - name: Build the Docker Compose configuration
       run: docker-compose up --build -d
 
-    - name: Run Tests
-      run: docker-compose run web python manage.py test
+    - name: Run Tests with pytest
+      run: docker-compose run web pytest myapp/tests/
+
+    - name: Push to GitHub Packages
+      run: |
+        echo ${{ secrets.GITHUB_TOKEN }} | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
+        docker tag myimage docker.pkg.github.com/${{ github.repository }}/myimage:latest
+        docker push docker.pkg.github.com/${{ github.repository }}/myimage:latest
 
     - name: Tear down
       if: always()
