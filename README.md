@@ -4,6 +4,16 @@
 
 Этот проект представляет собой REST API, созданный с использованием Django и Django REST Framework. Он позволяет загружать файлы на сервер и обрабатывать их асинхронно с помощью Celery.
 
+## Сразу полезные ссылки
+
+### Видео демонстрация работы приложения
+
+[![Видео на YouTube](http://img.youtube.com/vi/Fz5GE3ITuBg/0.jpg)](http://www.youtube.com/watch?v=Fz5GE3ITuBg)
+
+### Django CI/CD Pipeline
+
+[Release #21](https://github.com/vvvdanilsss/fileupload/actions/runs/6408731917/job/17398380153)
+
 ## Особенности
 
 - REST API для загрузки и списка файлов.
