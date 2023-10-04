@@ -84,7 +84,7 @@
 
 Данила Власов
 
-- [Telegram](https://t.me/vvvdanilsss)
+- [Telegram](https://t.me/vdanilas_work)
 - [GitHub](https://github.com/vvvdanilsss)
 
 ---
