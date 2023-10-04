@@ -1,13 +1,9 @@
 import pytest
 from django.urls import reverse
 from rest_framework import status
-
-from myapp.exceptions import FileUploadError
 from myapp.models import File
 from django.core.files.uploadedfile import SimpleUploadedFile
-
 from myapp.tasks import process_file
-from unittest.mock import patch
 
 
 # Тест для проверки успешной загрузки файла

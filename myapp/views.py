@@ -8,8 +8,13 @@ from .serializers import FileSerializer
 from .tasks import process_file
 import logging
 from django.db import transaction
+from django.shortcuts import render
 
 logger = logging.getLogger(__name__)
+
+
+def index(request):
+    return render(request, 'index.html')
 
 
 @api_view(['POST'])
@@ -26,7 +31,7 @@ def upload_file(request: Request) -> Response:
                 file_obj = file_serializer.save()
                 logger.debug(f"File object saved with id={file_obj.id}")
                 # Запускаем задачу в Celery после фиксации транзакции
-                transaction.on_commit(lambda: process_file.apply_async((file_obj.id,), countdown=5))
+                transaction.on_commit(lambda: process_file.apply_async((file_obj.id,), countdown=0.5))
 
             return Response(file_serializer.data, status=HTTP_201_CREATED)
         else:
