@@ -6,11 +6,11 @@ services:
     environment:
       - POSTGRES_DB=mydatabase
       - POSTGRES_USER=myuser
-      - POSTGRES_PASSWORD=mypassword
+      - POSTGRES_PASSWORD=153077523
 
   web:
     build: .
-    command: ["gunicorn", "myproject.wsgi:application", "--bind", "0.0.0.0:8000"]
+    command: [ "gunicorn", "myproject.wsgi:application", "--bind", "0.0.0.0:8000" ]
     volumes:
       - .:/app
     ports:
@@ -23,7 +23,7 @@ services:
 
   worker:
     build: .
-    command: ["celery", "-A", "myproject", "worker", "--loglevel=info"]
+    command: [ "celery", "-A", "myproject", "worker", "--loglevel=debug" ]
     volumes:
       - .:/app
     depends_on:

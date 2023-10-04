@@ -6,8 +6,10 @@ from rest_framework.generics import ListCreateAPIView
 from .models import File
 from .serializers import FileSerializer
 from .tasks import process_file
-from rest_framework.status import HTTP_500_INTERNAL_SERVER_ERROR
-from rest_framework.exceptions import APIException
+import logging
+from django.db import transaction
+
+logger = logging.getLogger(__name__)
 
 
 @api_view(['POST'])
@@ -15,17 +17,20 @@ def upload_file(request: Request) -> Response:
     """
     Эндпоинт для загрузки файла.
     """
-    try:
-        if request.method == 'POST':
-            file_serializer = FileSerializer(data=request.data)
-            if file_serializer.is_valid():
+    logger.debug("Function upload_file was called")
+
+    if request.method == 'POST':
+        file_serializer = FileSerializer(data=request.data)
+        if file_serializer.is_valid():
+            with transaction.atomic():
                 file_obj = file_serializer.save()
-                process_file.delay(file_obj.id)
-                return Response(file_serializer.data, status=HTTP_201_CREATED)
-            else:
-                return Response(file_serializer.errors, status=HTTP_400_BAD_REQUEST)
-    except Exception as e:
-        return Response({'error': str(e)}, status=HTTP_500_INTERNAL_SERVER_ERROR)
+                logger.debug(f"File object saved with id={file_obj.id}")
+                # Запускаем задачу в Celery после фиксации транзакции
+                transaction.on_commit(lambda: process_file.apply_async((file_obj.id,), countdown=5))
+
+            return Response(file_serializer.data, status=HTTP_201_CREATED)
+        else:
+            return Response(file_serializer.errors, status=HTTP_400_BAD_REQUEST)
 
 
 class FileList(ListCreateAPIView):
@@ -35,7 +40,4 @@ class FileList(ListCreateAPIView):
     serializer_class = FileSerializer
 
     def get_queryset(self):
-        try:
-            return File.objects.all()
-        except Exception as e:
-            raise APIException(str(e))
+        return File.objects.all()
