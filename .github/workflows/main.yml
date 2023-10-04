@@ -1,0 +1,39 @@
+name: Django CI/CD
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Python 3.x
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.x
+
+    - name: Install Dependencies
+      run: |
+        pip install --no-cache-dir -r requirements.txt
+
+    - name: Set up Docker
+      run: |
+        sudo apt-get update
+        sudo apt-get install docker docker-compose
+
+    - name: Build the Docker Compose configuration
+      run: docker-compose up --build -d
+
+    - name: Run Tests
+      run: docker-compose run web python manage.py test
+
+    - name: Tear down
+      if: always()
+      run: docker-compose down
