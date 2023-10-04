@@ -54,7 +54,14 @@
 
    ```bash
    docker-compose run web python manage.py makemigrations
-   docker-compose run web python manage.py migrate
+   docker-compose run web python manage.py migrate   
+   ```
+
+   Для запуска тестов используйте:
+   
+   ```bash
+   docker-compose run web pytest myapp/tests/test.py
+   
    ```
 
 ## Использование

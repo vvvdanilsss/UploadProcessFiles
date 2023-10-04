@@ -23,7 +23,7 @@ services:
 
   worker:
     build: .
-    command: [ "celery", "-A", "myproject", "worker", "--loglevel=debug" ]
+    command: [ "celery", "-A", "myproject", "worker", "--loglevel=info" ]
     volumes:
       - .:/app
     depends_on:
