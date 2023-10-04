@@ -39,9 +39,6 @@ jobs:
     - name: Build the Docker Compose configuration
       run: docker-compose -f docker-compose.yml build
 
-    - name: Tag Docker Image
-      run: docker tag myproject-web:latest user/app:latest
-
     - name: Make Migrations
       run: docker-compose run web python manage.py makemigrations
 
@@ -56,7 +53,7 @@ jobs:
 
     - name: Tag and Push to GitHub Packages
       run: |
-        docker tag myproject-web:latest docker.pkg.github.com/${{ github.repository }}/myapp:latest
+        docker tag myproject-web1:latest docker.pkg.github.com/${{ github.repository }}/myapp:latest
         docker push docker.pkg.github.com/${{ github.repository }}/myapp:latest
 
     - name: Tear down
