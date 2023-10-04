@@ -1,4 +1,4 @@
-# UploadProcessFiles
+# File Upload with Django and Celery
 
 ## Описание
 
