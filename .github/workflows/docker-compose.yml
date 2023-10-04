@@ -9,28 +9,26 @@ services:
       - POSTGRES_PASSWORD=153077523
 
   web:
+    image: ghcr.io/${{ github.repository }}:${{ github.sha }} # Изменено
     build: .
     command: [ "gunicorn", "myproject.wsgi:application", "--bind", "0.0.0.0:8000" ]
-    volumes:
-      - .:/app
     ports:
       - "8000:8000"
     depends_on:
       - db
       - redis
-    env_file:
-      - .env
+    # volumes: Удалено
+    # env_file: Удалено, если необходимо, используйте GitHub secrets
 
   worker:
+    image: ghcr.io/${{ github.repository }}:${{ github.sha }} # Изменено
     build: .
     command: [ "celery", "-A", "myproject", "worker", "--loglevel=debug" ]
-    volumes:
-      - .:/app
     depends_on:
       - db
       - redis
-    env_file:
-      - .env
+    # volumes: Удалено
+    # env_file: Удалено, если необходимо, используйте GitHub secrets
 
   redis:
     image: "redis:latest"
