@@ -51,10 +51,8 @@ jobs:
     - name: Log in to GitHub Docker Registry
       run: echo ${{ secrets.DOCKER_TOKEN }} | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
 
-    - name: Tag and Push to GitHub Packages
-      run: |
-        docker tag myproject-web1:latest docker.pkg.github.com/${{ github.repository }}/myapp:latest
-        docker push docker.pkg.github.com/${{ github.repository }}/myapp:latest
+    - name: List Docker Images
+      run: docker images
 
     - name: Tear down
       if: always()
